@@ -1,0 +1,43 @@
+
+class Solution{
+public:
+     static bool myCompare(pair<int,pair<int,int>>vec1,pair<int,pair<int,int>>vec2)
+    {
+        if(vec1.first<vec2.first)
+        {
+            return true;
+        }
+        else if(vec1.first>vec2.first)
+        {
+            return false;
+        }
+        else 
+        {
+            return vec1.second.second < vec2.second.second;
+        }
+    }
+    vector<int> maxMeetings(int N,vector<int> &S,vector<int> &F){
+        vector<pair<int,pair<int,int>>>vec;
+        int n=S.size();
+        for(int i=0;i<n;i++)
+        {
+            vec.push_back({F[i],{S[i],i+1}});
+        }
+        sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {
+            return myCompare(a, b);
+        });
+        vector<int>ans;
+        ans.push_back(vec[0].second.second);
+        int end=vec[0].first;
+        for(int i=1;i<n;i++)
+        {
+            if(vec[i].second.first>end)
+            {
+                ans.push_back(vec[i].second.second);
+                end=vec[i].first;
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
